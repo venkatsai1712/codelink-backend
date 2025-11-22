@@ -2,21 +2,22 @@ package com.venkatsai.codelink.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "comments")
-public class Comment {
+@Table(name="likes")
+public class Like {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String content;
 
-    @ManyToOne( fetch = FetchType.LAZY)
+    @ManyToOne
+    @JoinColumn(name="post_id")
     @JsonIgnore
-    @JoinColumn(name = "post_id")
     private Post post;
 }

@@ -25,6 +25,9 @@ public class Post {
     @JsonIgnore
     private User user;
 
-    @OneToMany(fetch= FetchType.LAZY, mappedBy = "post")
+    @OneToMany(cascade = CascadeType.ALL, fetch= FetchType.LAZY, mappedBy = "post")
     private List<Comment> comments = new ArrayList<>();
+
+    @OneToMany(mappedBy = "post")
+    private List<Comment> likes = new ArrayList<>();
 }

@@ -27,6 +27,7 @@ public class User {
     private List<Post> posts = new ArrayList<>();
 
     @ManyToMany
+    @JsonIgnore
     @JoinTable(name = "followers_and_following",
     joinColumns = @JoinColumn(name="follower_id"),
     inverseJoinColumns = @JoinColumn(name="following_id"))

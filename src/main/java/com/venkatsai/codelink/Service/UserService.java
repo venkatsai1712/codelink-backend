@@ -1,5 +1,6 @@
 package com.venkatsai.codelink.Service;
 
+import com.venkatsai.codelink.model.Comment;
 import com.venkatsai.codelink.model.Post;
 import com.venkatsai.codelink.model.User;
 import com.venkatsai.codelink.repositories.UserRepository;
@@ -57,6 +58,14 @@ public class UserService {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
             return user.get().getFollowings();
+        }
+        return null;
+    }
+
+    public List<User> getFollowers(Long id){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            return user.get().getFollowers();
         }
         return null;
     }
