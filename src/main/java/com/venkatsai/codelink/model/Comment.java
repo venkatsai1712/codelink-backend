@@ -4,6 +4,8 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.sql.Timestamp;
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -14,6 +16,7 @@ public class Comment {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String content;
+//    private Timestamp timestamp;
 
     @ManyToOne( fetch = FetchType.LAZY)
     @JsonIgnore
