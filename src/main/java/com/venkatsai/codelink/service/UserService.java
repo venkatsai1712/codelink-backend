@@ -20,7 +20,7 @@ public class UserService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) {
         User user = userRepository.findByUsername(username)
-                .orElseThrow(() -> new UsernameNotFoundException("User not found"));
+                .orElseThrow(() -> new UsernameNotFoundException("User Not Found"));
 
         return org.springframework.security.core.userdetails.User
                 .withUsername(user.getUsername())
@@ -28,40 +28,19 @@ public class UserService implements UserDetailsService {
                 .build();
     }
 
-    public User createUser(User user){
-        user.getPosts().forEach(post -> post.setUser(user));
-        return userRepository.save(user);
-    }
-
-    public User getUserById(Long id){
-        Optional<User> user = userRepository.findById(id);
-        return user.orElse(null);
-    }
-
-    public Post createPostByUserId(Long id, Post post){
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            post.setUser(user.get());
-            user.get().getPosts().add(post);
-            userRepository.save(user.get());
-            return post;
-        }
-        return null;
-    }
-
-    public User followUser(Long id,Long following_id){
+    public String followUser(Long id,Long following_id){
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
             List<User> followings = user.get().getFollowings();
             Optional<User> following_user = userRepository.findById(following_id);
             if(following_user.isPresent()){
                 if(followings.contains(following_user.get())){
-                    return user.get();
+                    return "Already Following";
                 }
                 followings.add(following_user.get());
                 user.get().setFollowings(followings);
                 userRepository.save(user.get());
-                return user.get();
+                return "Following";
             }
         }
         return null;
@@ -79,22 +58,6 @@ public class UserService implements UserDetailsService {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
             return user.get().getFollowers();
-        }
-        return null;
-    }
-
-    public Long getUserId(User user) {
-        Optional<User> user1 = userRepository.findByEmail(user.getEmail());
-        if(user1.isPresent()){
-            return user1.get().getId();
-        }
-        return null;
-    }
-
-    public List<Post> getPosts(Long id) {
-        Optional<User> user = userRepository.findById(id);
-        if(user.isPresent()){
-            return user.get().getPosts();
         }
         return null;
     }

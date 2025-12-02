@@ -1,14 +1,13 @@
 package com.venkatsai.codelink.dto;
 
 import lombok.*;
-import java.util.*;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
-public class UserRequestDTO {
+public class UserRequestRegisterDTO {
     private String firstName;
     private String lastName;
     private String username;

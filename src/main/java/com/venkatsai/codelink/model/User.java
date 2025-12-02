@@ -33,13 +33,13 @@ public class User {
     @ElementCollection
     private List<String> skills;
 
-    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Project> projects = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
-    @ManyToMany(fetch=FetchType.LAZY)
+    @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(name = "followers_and_followings",
     joinColumns = @JoinColumn(name="follower_id"),
     inverseJoinColumns = @JoinColumn(name="following_id"))

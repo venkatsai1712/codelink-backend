@@ -11,6 +11,7 @@ import com.venkatsai.codelink.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -23,6 +24,25 @@ public class PostService {
     private CommentRepository commentRepository;
     @Autowired
     private LikeRepository likeRepository;
+
+    public Post createPostByUserId(Long id, Post post){
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            post.setUser(user.get());
+            user.get().getPosts().add(post);
+            userRepository.save(user.get());
+            return post;
+        }
+        return null;
+    }
+
+    public List<Post> getPosts(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if(user.isPresent()){
+            return user.get().getPosts();
+        }
+        return null;
+    }
 
     public Comment commentPost(Long id, Long postId, Comment comment) {
         Optional<User> user = userRepository.findById(id);

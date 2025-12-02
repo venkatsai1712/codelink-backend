@@ -1,13 +1,11 @@
 package com.venkatsai.codelink.service;
 
-import com.venkatsai.codelink.dto.UserRequestDTO;
-import com.venkatsai.codelink.dto.UserResponseDTO;
+import com.venkatsai.codelink.dto.UserRequestRegisterDTO;
+import com.venkatsai.codelink.dto.UserResponseRegisterDTO;
 import com.venkatsai.codelink.model.User;
-import com.venkatsai.codelink.repositories.AuthRepository;
 import com.venkatsai.codelink.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.Optional;
 
 @Service
@@ -15,7 +13,7 @@ public class AuthService {
     @Autowired
     private UserRepository userRepository;
 
-    public UserResponseDTO registerUser(UserRequestDTO userDto){
+    public UserResponseRegisterDTO registerUser(UserRequestRegisterDTO userDto){
         User user = User.builder()
                 .firstName(userDto.getFirstName())
                 .lastName(userDto.getLastName())
@@ -33,7 +31,7 @@ public class AuthService {
             return null;
 
         User resUser = userRepository.save(user);
-        return UserResponseDTO.builder()
+        return UserResponseRegisterDTO.builder()
                     .firstName(resUser.getFirstName())
                     .lastName(resUser.getLastName())
                     .username(resUser.getUsername())
@@ -42,7 +40,7 @@ public class AuthService {
 
     }
 
-    public UserResponseDTO loginUser(UserRequestDTO userDto) {
+    public UserResponseRegisterDTO loginUser(UserRequestRegisterDTO userDto) {
         User user = User.builder()
                 .email(userDto.getEmail())
                 .password(userDto.getPassword())
@@ -57,7 +55,7 @@ public class AuthService {
 
         if(opUser.getEmail().equals(user.getEmail()) &&
                 opUser.getPassword().equals(user.getPassword()))
-            return UserResponseDTO.builder()
+            return UserResponseRegisterDTO.builder()
                     .firstName(opUser.getFirstName())
                     .lastName(opUser.getLastName())
                     .username(opUser.getUsername())
