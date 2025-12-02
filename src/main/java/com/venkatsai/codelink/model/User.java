@@ -6,34 +6,45 @@ import lombok.*;
 import java.util.*;
 
 @Entity
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "users")
 public class User {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
     private Long id;
-    private String first_name;
-    private String last_name;
+    private String firstName;
+    private String lastName;
     private String username;
     private String email;
     private String password;
-    private String photo;
-    private String location;
-    private String phone_number;
+    private String profilePicture;
+    private String bio;
+    private String githubUrl;
+    private String linkedinUrl;
+    private String currentRoleName;
+    private String currentCompany;
+    private Long followerCount;
+    private Long followingCount;
+
+    @ElementCollection
+    private List<String> skills;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL)
+    private List<Project> projects = new ArrayList<>();
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch=FetchType.LAZY)
     private List<Post> posts = new ArrayList<>();
 
-    @ManyToMany
-    @JsonIgnore
-    @JoinTable(name = "followers_and_following",
+    @ManyToMany(fetch=FetchType.LAZY)
+    @JoinTable(name = "followers_and_followings",
     joinColumns = @JoinColumn(name="follower_id"),
     inverseJoinColumns = @JoinColumn(name="following_id"))
     private List<User> followings = new ArrayList<>();
 
-    @ManyToMany(mappedBy = "followings")
-    @JsonIgnore
+    @ManyToMany(mappedBy = "followings",fetch=FetchType.LAZY)
     private List<User> followers = new ArrayList<>();
 }

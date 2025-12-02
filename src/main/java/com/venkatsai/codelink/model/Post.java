@@ -3,9 +3,6 @@ package com.venkatsai.codelink.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.Fetch;
-
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 

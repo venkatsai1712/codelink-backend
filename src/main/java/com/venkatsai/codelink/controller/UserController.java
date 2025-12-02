@@ -26,33 +26,6 @@ public class UserController {
     private UserService userService;
     @Autowired
     private PostService postService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private PasswordEncoder passwordEncoder;
-
-    @PostMapping("/create")
-    public User createUser(@RequestBody User user){
-        log.info("User Created");
-        return userService.createUser(user);
-    }
-
-    @PostMapping("/login")
-    public ResponseEntity<String> login(@RequestBody Map<String, String> user){
-        String username = user.get("username");
-        String password = user.get("password");
-        System.out.println("Hello "+username);
-        log.info(passwordEncoder.encode(password));
-        try{
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(username, password)
-            );
-            return ResponseEntity.ok("Success");
-        }catch(Exception e){
-            System.out.println(e);
-            return ResponseEntity.status(401).body("Failed");
-        }
-    }
 
     @PostMapping("/get")
     public Long getUserId(@RequestBody User user){
