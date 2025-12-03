@@ -17,6 +17,11 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @GetMapping("/me")
+    public ResponseEntity<?> getUserProfile(@RequestHeader("user_id") Long user_id) {
+        return ResponseEntity.ok().body(userService.getUserProfile(user_id));
+    }
+
     @PostMapping("/me/follows/{following_id}")
     public ResponseEntity<?> followUser(@RequestHeader("user_id") Long user_id, @PathVariable Long following_id){
         String response = userService.followUser(user_id,following_id);

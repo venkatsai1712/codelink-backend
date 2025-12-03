@@ -4,6 +4,7 @@ import com.venkatsai.codelink.configuration.SecurityConfig;
 import com.venkatsai.codelink.dto.UserRequestRegisterDTO;
 import com.venkatsai.codelink.dto.UserResponseRegisterDTO;
 import com.venkatsai.codelink.service.AuthService;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.*;
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/auth")
+@Slf4j
 public class AuthController {
     @Autowired
     private AuthService authService;

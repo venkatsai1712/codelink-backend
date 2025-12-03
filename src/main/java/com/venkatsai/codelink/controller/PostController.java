@@ -22,13 +22,12 @@ public class PostController {
 
     @GetMapping("/me/posts")
     public ResponseEntity<?> getPosts(@RequestHeader("user_id") Long user_id){
-        log.info("User Id"+user_id);
         return ResponseEntity.ok().body(postService.getPosts(user_id));
     }
 
     @PostMapping("/me/posts")
     public ResponseEntity<?> createPost(@RequestHeader("user_id") Long user_id, @RequestBody Post post){
-        return ResponseEntity.ok().body(postService.createPostByUserId(user_id,post));
+        return ResponseEntity.ok().body(postService.createPost(user_id,post));
     }
 
     @PostMapping("/me/posts/{post_id}/comments")

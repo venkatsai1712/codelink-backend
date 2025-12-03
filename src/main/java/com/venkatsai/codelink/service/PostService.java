@@ -25,7 +25,7 @@ public class PostService {
     @Autowired
     private LikeRepository likeRepository;
 
-    public Post createPostByUserId(Long id, Post post){
+    public Post createPost(Long id, Post post){
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
             post.setUser(user.get());

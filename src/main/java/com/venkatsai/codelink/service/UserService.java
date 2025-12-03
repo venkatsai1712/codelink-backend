@@ -1,5 +1,7 @@
 package com.venkatsai.codelink.service;
 
+import com.venkatsai.codelink.dto.UserProfileResponseDTO;
+import com.venkatsai.codelink.dto.UserResponseRegisterDTO;
 import com.venkatsai.codelink.model.Post;
 import com.venkatsai.codelink.model.User;
 import com.venkatsai.codelink.repositories.UserRepository;
@@ -58,6 +60,28 @@ public class UserService implements UserDetailsService {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
             return user.get().getFollowers();
+        }
+        return null;
+    }
+
+    public UserProfileResponseDTO getUserProfile(Long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if(user.isPresent()){
+            User tmpUser = user.get();
+            return UserProfileResponseDTO.builder()
+                    .firstName(tmpUser.getFirstName())
+                    .lastName(tmpUser.getLastName())
+                    .email(tmpUser.getEmail())
+                    .bio(tmpUser.getBio())
+                    .currentCompany(tmpUser.getCurrentCompany())
+                    .currentRoleName(tmpUser.getCurrentRoleName())
+                    .followerCount(tmpUser.getFollowerCount())
+                    .followingCount(tmpUser.getFollowingCount())
+                    .linkedinUrl(tmpUser.getLinkedinUrl())
+                    .profilePicture(tmpUser.getProfilePicture())
+                    .githubUrl(tmpUser.getGithubUrl())
+                    .username(tmpUser.getUsername())
+                    .build();
         }
         return null;
     }

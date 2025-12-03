@@ -1,5 +1,6 @@
 package com.venkatsai.codelink.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import java.time.LocalDateTime;
@@ -17,19 +18,21 @@ public class Project {
     private Long id;
     private String title;
     private String description;
-    @ElementCollection
-    private List<String> techStack =  new ArrayList<>();
     private String duration;
     private String status;
-    @ElementCollection
-    private List<String> screenShots = new ArrayList<>();
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+
+    @ElementCollection
+    private List<String> techStack =  new ArrayList<>();
+    @ElementCollection
+    private List<String> screenShots = new ArrayList<>();
     @ElementCollection
     private List<String> urlLinks =  new ArrayList<>();
 
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @JsonIgnore
     private User user;
 
 }

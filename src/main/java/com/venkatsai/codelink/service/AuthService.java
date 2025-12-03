@@ -1,17 +1,22 @@
 package com.venkatsai.codelink.service;
 
+import com.venkatsai.codelink.configuration.SecurityConfig;
 import com.venkatsai.codelink.dto.UserRequestRegisterDTO;
 import com.venkatsai.codelink.dto.UserResponseRegisterDTO;
 import com.venkatsai.codelink.model.User;
 import com.venkatsai.codelink.repositories.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
 
 @Service
+@Slf4j
 public class AuthService {
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private SecurityConfig securityConfig;
 
     public UserResponseRegisterDTO registerUser(UserRequestRegisterDTO userDto){
         User user = User.builder()
@@ -19,7 +24,7 @@ public class AuthService {
                 .lastName(userDto.getLastName())
                 .username(userDto.getUsername())
                 .email(userDto.getEmail())
-                .password(userDto.getPassword())
+                .password(securityConfig.passwordEncoder().encode(userDto.getPassword()))
                 .build();
 
         Optional<User> optionalUserByUsername = userRepository.findByUsername(user.getUsername());
@@ -54,7 +59,7 @@ public class AuthService {
         User opUser =  optionalUserByEmail.get();
 
         if(opUser.getEmail().equals(user.getEmail()) &&
-                opUser.getPassword().equals(user.getPassword()))
+                securityConfig.passwordEncoder().matches(userDto.getPassword(),opUser.getPassword()))
             return UserResponseRegisterDTO.builder()
                     .firstName(opUser.getFirstName())
                     .lastName(opUser.getLastName())
