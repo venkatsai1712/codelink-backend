@@ -1,5 +1,6 @@
 package com.venkatsai.codelink.service;
 
+import com.venkatsai.codelink.dto.PostDetailsResponseDTO;
 import com.venkatsai.codelink.model.Comment;
 import com.venkatsai.codelink.model.Like;
 import com.venkatsai.codelink.model.Post;
@@ -11,6 +12,7 @@ import com.venkatsai.codelink.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -36,10 +38,24 @@ public class PostService {
         return null;
     }
 
-    public List<Post> getPosts(Long id) {
+    public List<PostDetailsResponseDTO> getPosts(Long id) {
         Optional<User> user = userRepository.findById(id);
         if(user.isPresent()){
-            return user.get().getPosts();
+            List<PostDetailsResponseDTO> posts = new ArrayList<>();
+            user.get().getPosts().forEach(post -> {
+                posts.add(PostDetailsResponseDTO.builder()
+                        .id(post.getId())
+                        .content(post.getContent())
+                        .photo(post.getPhoto())
+                        .firstName(user.get().getFirstName())
+                        .lastName(user.get().getLastName())
+                        .username(user.get().getUsername())
+                        .profilePicture(user.get().getProfilePicture())
+                                .likes(post.getLikes())
+                                .comments(post.getComments())
+                        .build());
+            });
+            return posts;
         }
         return null;
     }

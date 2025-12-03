@@ -11,6 +11,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @Table(name = "posts")
 public class Post {
     @Id
@@ -28,5 +29,5 @@ public class Post {
     private List<Comment> comments = new ArrayList<>();
 
     @OneToMany(mappedBy = "post")
-    private List<Comment> likes = new ArrayList<>();
+    private List<Like> likes = new ArrayList<>();
 }
